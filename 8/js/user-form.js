@@ -17,12 +17,12 @@ const adFormTimeIn = adForm.querySelector('#timein');
 const adFormTimeOut = adForm.querySelector('#timeout');
 
 const onTypeChange = () => {
-  pristine.validate (adFormPrice);
+  pristine.validate(adFormPrice);
   pristine.validate(adFormType);
 };
 
 const onPriceChange = () => {
-  pristine.validate (adFormPrice);
+  pristine.validate(adFormPrice);
   pristine.validate(adFormType);
 };
 
@@ -36,22 +36,10 @@ const onRoomNumberChange = () => {
   pristine.validate(adFormRoomNumber);
 };
 
-const onTimeInChange = () => {
-  // pristine.validate(adFormTimeIn);
-  pristine.validate(adFormTimeOut);
-};
-
-const onTimeOutChange = () => {
-  pristine.validate(adFormTimeIn);
-  pristine.validate(adFormTimeOut);
-};
-
 adFormPrice.addEventListener('input', onTypeChange);
 adFormType.addEventListener('change', onPriceChange);
 adFormCapacity.addEventListener('change', onCapacityChange);
 adFormRoomNumber.addEventListener('change', onRoomNumberChange);
-adFormTimeIn.addEventListener('change', onTimeInChange);
-adFormTimeOut.addEventListener('change', onTimeOutChange);
 
 const validateIsNotEmpty = (value) => value;
 pristine.addValidator(adFormTitle, validateIsNotEmpty, 'Поле обязательно для заполнения');
@@ -95,26 +83,11 @@ const validateCapacity = () => roomsToGuests[adFormRoomNumber.value].includes(ad
 
 pristine.addValidator(adFormCapacity, validateCapacity, 'Недопустимое количество комнат');
 
-const timeInEqualsTimeOut = () => {
-  if (adFormTimeIn.value !== adFormTimeOut.value) {
-    adFormTimeIn.value = adFormTimeOut.value;
-    return false;
-  } else {
-    return true;
-  }
-};
+const timeOutEqualsTimeIn = () => { adFormTimeIn.value = adFormTimeOut.value; };
+const timeInEqualsTimeOut = () => { adFormTimeOut.value = adFormTimeIn.value; };
 
-const timeOutEqualsTimeIn = () => {
-  if (adFormTimeOut.value !== adFormTimeIn.value) {
-    adFormTimeOut.value = adFormTimeIn.value;
-    return false;
-  } else {
-    return true;
-  }
-};
-
-pristine.addValidator(adFormTimeOut, timeInEqualsTimeOut);
-pristine.addValidator(adFormTimeIn, timeOutEqualsTimeIn);
+adFormTimeOut.addEventListener('change', timeOutEqualsTimeIn);
+adFormTimeIn.addEventListener('change', timeInEqualsTimeOut);
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
