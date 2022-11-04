@@ -16,9 +16,21 @@ const adFormPrice = adForm.querySelector('#price');
 const adFormTimeIn = adForm.querySelector('#timein');
 const adFormTimeOut = adForm.querySelector('#timeout');
 
+const typeToMinPrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
 const onTypeChange = () => {
-  pristine.validate(adFormPrice);
-  pristine.validate(adFormType);
+  if (!adFormPrice.value) {
+    adFormPrice.placeholder = typeToMinPrice[adFormType.value];
+  } else {
+    pristine.validate(adFormPrice);
+    pristine.validate(adFormType);
+  }
 };
 
 const onPriceChange = () => {
@@ -36,8 +48,8 @@ const onRoomNumberChange = () => {
   pristine.validate(adFormRoomNumber);
 };
 
-adFormPrice.addEventListener('input', onTypeChange);
-adFormType.addEventListener('change', onPriceChange);
+adFormPrice.addEventListener('input', onPriceChange);
+adFormType.addEventListener('change', onTypeChange);
 adFormCapacity.addEventListener('change', onCapacityChange);
 adFormRoomNumber.addEventListener('change', onRoomNumberChange);
 
@@ -52,21 +64,6 @@ const validatePriceIsLessThenZero = (value) => value >= 0;
 pristine.addValidator(adFormPrice, validatePriceIsLessThenZero, 'Вы не можете доплачивать постояльцам');
 const validatePriceMax = (value) => value <= 100000;
 pristine.addValidator(adFormPrice, validatePriceMax, 'Цена не может быть больше 100000');
-
-const typeToMinPrice = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000,
-};
-
-const typeToPricePlaceholder = () => {
-  adFormPrice.placeholder = typeToMinPrice[adFormType.value];
-  return true;
-};
-
-pristine.addValidator(adFormPrice, typeToPricePlaceholder, 'this');
 
 const validateTypeToMinPrice = (value) => value >= typeToMinPrice[adFormType.value];
 
