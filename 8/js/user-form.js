@@ -65,7 +65,13 @@ pristine.addValidator(adFormPrice, validatePriceIsLessThenZero, 'Вы не мо�
 const validatePriceMax = (value) => value <= 100000;
 pristine.addValidator(adFormPrice, validatePriceMax, 'Цена не может быть больше 100000');
 
-const validateTypeToMinPrice = (value) => value >= typeToMinPrice[adFormType.value];
+const validateTypeToMinPrice = () => {
+  if (!adFormPrice.value) {
+    return true;
+  } else if (adFormPrice.value >= typeToMinPrice[adFormType.value]) {
+    return true;
+  }
+};
 
 pristine.addValidator(adFormPrice, validateTypeToMinPrice, 'Слишком маленькая цена');
 
