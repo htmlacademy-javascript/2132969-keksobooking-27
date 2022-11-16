@@ -12,10 +12,6 @@ const adFormAddress = document.querySelector('#address');
 const mapCanvas = document.querySelector('.map__canvas');
 const filteringList = document.querySelector('.map__filters');
 
-const resetAddress = () => {
-  adFormAddress.value = `${LAT.toFixed(5)} ${LNG.toFixed(5)}`;
-};
-
 const map = L.map('map-canvas');
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -124,6 +120,10 @@ const showNoConnetcionErrorMessage = () => {
 
 const onError = () => {
   showNoConnetcionErrorMessage();
+};
+
+const resetAddress = () => {
+  adFormAddress.value = `${LAT.toFixed(5)} ${LNG.toFixed(5)}`;
 };
 
 map.on('load', () => {

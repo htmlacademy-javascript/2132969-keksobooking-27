@@ -1,6 +1,7 @@
 const MAX_OFFERS = 10;
 const DEFAULT_VALUE = 'any';
 const mapFiltersContainer = document.querySelector('.map__filters');
+const filters = Array.from(mapFiltersContainer.children);
 
 const priceOptions = {
   low: {
@@ -16,8 +17,6 @@ const priceOptions = {
     end: Infinity,
   },
 };
-
-const filters = Array.from(mapFiltersContainer.children);
 
 const filterRules = {
   'housing-type': (data, filter) => filter.value === data.offer.type,
