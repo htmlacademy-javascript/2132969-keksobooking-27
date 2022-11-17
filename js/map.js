@@ -7,6 +7,7 @@ import { debounce } from './utils.js';
 const LAT = 35.67500;
 const LNG = 139.75000;
 const ZOOM = 13;
+const DECIMAL_PLACES = 5;
 const DEBOUNCE_TIMEOUT_DELAY = 500;
 const adFormAddress = document.querySelector('#address');
 const mapCanvas = document.querySelector('.map__canvas');
@@ -60,7 +61,7 @@ const createAdPinMarkers = (offersList) => {
 };
 
 mainMarker.on('moveend', (evt) => {
-  adFormAddress.value = `${evt.target.getLatLng().lat.toFixed(5)} ${evt.target.getLatLng().lng.toFixed(5)}`;
+  adFormAddress.value = `${evt.target.getLatLng().lat.toFixed(DECIMAL_PLACES)} ${evt.target.getLatLng().lng.toFixed(DECIMAL_PLACES)}`;
   map.setView({
     lat: evt.target.getLatLng().lat,
     lng: evt.target.getLatLng().lng,
@@ -123,7 +124,7 @@ const onError = () => {
 };
 
 const resetAddress = () => {
-  adFormAddress.value = `${LAT.toFixed(5)} ${LNG.toFixed(5)}`;
+  adFormAddress.value = `${LAT.toFixed(DECIMAL_PLACES)} ${LNG.toFixed(DECIMAL_PLACES)}`;
 };
 
 map.on('load', () => {

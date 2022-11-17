@@ -18,18 +18,52 @@ const generatePopup = ({ author, offer }) => {
   const popupTime = popupElement.querySelector('.popup__text--time');
   const popupFeaturesList = popupElement.querySelector('.popup__features');
   const popupDescription = popupElement.querySelector('.popup__description');
-  const userPhotoList = popupElement.querySelector('.popup__photos');
-  const userPhoto = popupElement.querySelector('.popup__photo');
-  popupTitle.textContent = offer.title;
-  popupAdress.textContent = offer.address;
-  popupPrice.textContent = `${offer.price}₽/ночь`;
-  popupType.textContent = typesEngToRus[offer.type];
-  popupCapacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-  popupTime.textContent = `Заезд после ${offer.checkin} выезд до ${offer.checkout}`;
+  const popupPhotoList = popupElement.querySelector('.popup__photos');
+  const popupPhoto = popupElement.querySelector('.popup__photo');
+  const popupAvatar = popupElement.querySelector('.popup__avatar');
+
+  if (popupTitle) {
+    popupTitle.textContent = offer.title;
+  } else {
+    popupTitle.remove();
+  }
+
+  if (popupAdress) {
+    popupAdress.textContent = offer.address;
+  } else {
+    popupAdress.remove();
+  }
+
+  if (popupPrice) {
+    popupPrice.textContent = `${offer.price}₽/ночь`;
+  } else {
+    popupPrice.remove();
+  }
+
+  if (popupType) {
+    popupType.textContent = typesEngToRus[offer.type];
+  } else {
+    popupType.remove();
+  }
+
+  if (popupCapacity) {
+    popupCapacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  } else {
+    popupCapacity.remove();
+  }
+
+  if (popupTime) {
+    popupTime.textContent = `Заезд после ${offer.checkin} выезд до ${offer.checkout}`;
+  } else {
+    popupTime.remove();
+  }
+
   const featuresLength = popupFeaturesList.children.length;
+
   for (let i = 0; i < featuresLength; i++) {
     popupFeaturesList.removeChild(popupElement.querySelector('.popup__feature'));
   }
+
   if (!offer.features || offer.features.length === 0) {
     popupFeaturesList.remove();
   } else {
@@ -39,22 +73,30 @@ const generatePopup = ({ author, offer }) => {
       feature.classList.add('popup__feature', `popup__feature--${offer.features[i]}`);
     }
   }
+
   if (offer.description !== undefined) {
     popupDescription.textContent = offer.description;
   } else {
     popupDescription.remove();
   }
-  popupElement.querySelector('.popup__photos').removeChild(userPhoto);
+
+  popupPhotoList.removeChild(popupPhoto);
   if (offer.photos && offer.photos.length !== 0) {
     for (let i = 0; i < offer.photos.length; i++) {
-      const userPhotoCloned = userPhoto.cloneNode(true);
+      const userPhotoCloned = popupPhoto.cloneNode(true);
       userPhotoCloned.src = offer.photos[i];
-      userPhotoList.appendChild(userPhotoCloned);
+      popupPhotoList.appendChild(userPhotoCloned);
     }
   } else {
-    userPhotoList.remove();
+    popupPhotoList.remove();
   }
-  popupElement.querySelector('.popup__avatar').src = author.avatar;
+
+  if (popupAvatar) {
+    popupAvatar.src = author.avatar;
+  } else {
+    popupAvatar.remove();
+  }
+
   return popupElement;
 };
 

@@ -14,6 +14,4 @@ const changeFormState = () => {
   disableForm();
 };
 
-changeFormState();
-
 export { changeFormState };
