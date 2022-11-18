@@ -22,6 +22,8 @@ const adFormPrice = adForm.querySelector('#price');
 const adFormTimeIn = adForm.querySelector('#timein');
 const adFormTimeOut = adForm.querySelector('#timeout');
 const sliderElement = document.querySelector('.ad-form__slider');
+const errorContainer = errorTemplate.cloneNode('true');
+const successContainer = successTemplate.cloneNode('true');
 
 const defaultConfig = {
   classTo: 'ad-form__element',
@@ -77,13 +79,7 @@ pristine.addValidator(adFormPrice, validatePriceIsLessThenZero, 'Вы не мо�
 const validatePriceMax = (value) => value <= PRICE_MAX_VALUE;
 pristine.addValidator(adFormPrice, validatePriceMax, `Цена не может быть больше ${PRICE_MAX_VALUE}`);
 
-const validateTypeToMinPrice = () => {
-  if (!adFormPrice.value) {
-    return true;
-  } else if (adFormPrice.value >= typeToMinPrice[adFormType.value]) {
-    return true;
-  }
-};
+const validateTypeToMinPrice = () => !adFormPrice.value || adFormPrice.value >= typeToMinPrice[adFormType.value];
 
 pristine.addValidator(adFormPrice, validateTypeToMinPrice, 'Слишком маленькая цена');
 
@@ -153,29 +149,65 @@ const changeSubmitButtonState = () => {
   submitButton.disabled = !submitButton.disabled;
 };
 
-const sendingFormErrorMessage = () => {
-  const errorContainer = errorTemplate.cloneNode('true');
-  const errorButton = errorContainer.querySelector('.error__button');
-  errorButton.addEventListener('click', () => {
-    errorContainer.remove();
-  });
-  document.body.addEventListener('click', () => {
-    errorContainer.remove();
-  });
-  document.addEventListener('keydown', ({ key }) => {
-    if (key === 'Escape') {
-      errorContainer.remove();
-    }
-  });
+const createErrorMessage = () => {
   document.body.appendChild(errorContainer);
 };
 
-const sendingFormSuccessMessage = () => {
-  const successContainer = successTemplate.cloneNode('true');
+const closeErrorMessage = () => {
+  errorContainer.remove();
+  document.body.removeEventListener('click', closeErrorMessageOnClick);
+  document.removeEventListener('keydown', closeErrorMessageOnEsc);
+};
+
+function closeErrorMessageOnClick() {
+  closeErrorMessage();
+}
+
+function closeErrorMessageOnEsc (evt) {
+  if (evt.key === 'Escape') {
+    closeErrorMessage();
+  }
+}
+
+function closeErrorMessageOnButton () {
+  closeErrorMessage();
+}
+
+const sendingFormErrorMessage = () => {
+  createErrorMessage();
+  document.body.addEventListener('click', closeErrorMessageOnClick);
+  document.addEventListener('keydown', closeErrorMessageOnEsc);
+  const errorButton = document.querySelector('.error__button');
+  errorButton.addEventListener('click', closeErrorMessageOnButton);
+};
+
+const createSuccessMessage = () => {
   document.body.appendChild(successContainer);
   setTimeout(() => {
     successContainer.remove();
   }, TIMEOUT_SUCCESS_MESSAGE);
+};
+
+const closeSuccesMessage = () => {
+  successContainer.remove();
+  document.body.removeEventListener('click', closeSuccessMessageOnClick);
+  document.removeEventListener('keydown', closeSuccessMessageOnEsc);
+};
+
+function closeSuccessMessageOnClick() {
+  closeSuccesMessage();
+}
+
+function closeSuccessMessageOnEsc(evt) {
+  if (evt.key === 'Escape') {
+    closeSuccesMessage();
+  }
+}
+
+const sendingFormSuccessMessage = () => {
+  createSuccessMessage();
+  document.body.addEventListener('click', closeSuccessMessageOnClick);
+  document.addEventListener('keydown', closeSuccessMessageOnEsc);
 };
 
 const resetFiltersToDefault = () => {

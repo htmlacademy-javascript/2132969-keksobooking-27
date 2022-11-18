@@ -1,4 +1,4 @@
-import { changeFormState } from './form-state.js';
+import { changeFormState, changeFilterState } from './form-state.js';
 import { generatePopup } from './popup.js';
 import { sendRequest } from './fetch.js';
 import { filterData, MAX_OFFERS } from './filter.js';
@@ -99,6 +99,7 @@ const onSuccess = (data) => {
   adverts = data.slice();
   generateDefaultMarkers();
   changeFormState();
+  changeFilterState();
   filteringList.addEventListener('change', onMapFiltersChange);
 };
 
@@ -121,6 +122,7 @@ const showNoConnetcionErrorMessage = () => {
 
 const onError = () => {
   showNoConnetcionErrorMessage();
+  changeFormState();
 };
 
 const resetAddress = () => {
