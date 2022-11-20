@@ -155,30 +155,30 @@ const createErrorMessage = () => {
 
 const closeErrorMessage = () => {
   errorContainer.remove();
-  document.body.removeEventListener('click', closeErrorMessageOnClick);
-  document.removeEventListener('keydown', closeErrorMessageOnEsc);
+  document.body.removeEventListener('click', errorMessageClickHandler);
+  document.removeEventListener('keydown', errorMessageEscHandler);
 };
 
-function closeErrorMessageOnClick() {
+function errorMessageClickHandler() {
   closeErrorMessage();
 }
 
-function closeErrorMessageOnEsc (evt) {
+function errorMessageEscHandler (evt) {
   if (evt.key === 'Escape') {
     closeErrorMessage();
   }
 }
 
-function closeErrorMessageOnButton () {
+function errorMessageButtonHandler () {
   closeErrorMessage();
 }
 
 const sendingFormErrorMessage = () => {
   createErrorMessage();
-  document.body.addEventListener('click', closeErrorMessageOnClick);
-  document.addEventListener('keydown', closeErrorMessageOnEsc);
+  document.body.addEventListener('click', errorMessageClickHandler);
+  document.addEventListener('keydown', errorMessageEscHandler);
   const errorButton = document.querySelector('.error__button');
-  errorButton.addEventListener('click', closeErrorMessageOnButton);
+  errorButton.addEventListener('click', errorMessageButtonHandler);
 };
 
 const createSuccessMessage = () => {
@@ -190,15 +190,15 @@ const createSuccessMessage = () => {
 
 const closeSuccesMessage = () => {
   successContainer.remove();
-  document.body.removeEventListener('click', closeSuccessMessageOnClick);
-  document.removeEventListener('keydown', closeSuccessMessageOnEsc);
+  document.body.removeEventListener('click', successMessageClickHandler);
+  document.removeEventListener('keydown', successMessageEscHandler);
 };
 
-function closeSuccessMessageOnClick() {
+function successMessageClickHandler() {
   closeSuccesMessage();
 }
 
-function closeSuccessMessageOnEsc(evt) {
+function successMessageEscHandler(evt) {
   if (evt.key === 'Escape') {
     closeSuccesMessage();
   }
@@ -206,8 +206,8 @@ function closeSuccessMessageOnEsc(evt) {
 
 const sendingFormSuccessMessage = () => {
   createSuccessMessage();
-  document.body.addEventListener('click', closeSuccessMessageOnClick);
-  document.addEventListener('keydown', closeSuccessMessageOnEsc);
+  document.body.addEventListener('click', successMessageClickHandler);
+  document.addEventListener('keydown', successMessageEscHandler);
 };
 
 const resetFiltersToDefault = () => {
